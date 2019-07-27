@@ -110,5 +110,8 @@ class EmployeController extends Controller
     public function destroy($id)
     {
         //
+        $pegawai = Employe::find($id);
+        $pegawai->delete();
+        return redirect('/crud');
     }
 }

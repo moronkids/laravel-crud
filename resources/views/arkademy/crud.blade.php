@@ -80,7 +80,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12" align="right">
-                        <button class="btn btn-primary my-4" data-toggle="modal" data-target="#addModal">add</button>
+                        <button class="btn btn-primary mt-5 mb-4" data-toggle="modal" data-target="#addModal">add</button>
                     </div>
                 </div>
                 <div class="row">
@@ -102,7 +102,7 @@
                                 <td>{{ $datas->sal }}</td>
                                 <td>
                                     <button class="btn btn-primary" onclick="view({!!$datas->id!!})">Edit</button>
-                                    <button class="btn btn-danger">Delete</button>
+                                    <button class="btn btn-danger" onclick="_delete({!!$datas->id!!})">Delete</button>
                                 </td>
                                 <!-- <td>
                                     <a href="/pegawai/edit/{{ $datas->id }}" class="btn btn-warning">Edit</a>
@@ -183,6 +183,44 @@
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
             <script src="js/app.js"></script>
             <script>
+                function _delete(id) {
+                    Swal.fire({
+                        title: 'Apakah anda yakin?',
+                        text: "Kamu tidak dapat mengembalikan kenangan yang sudah terhapus",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Hapus'
+                        }).then((result) => {
+                        if (result.value) {
+                            $.ajax({
+                                url: '/crud/delete/'+id,
+                                success: function (data) {
+                                    Swal.fire({
+                                        title: 'Sukses!',
+                                        text: 'Data berhasil dihapus',
+                                        type: 'success',
+                                        confirmButtonText: 'Close'
+                                    }).then(function () {
+                                        location.reload(); 
+                                    });
+                                },
+                                error: function (error, xhr) {
+                                    $('.modal').modal('hide');
+                                    Swal.fire({
+                                        title: 'Error!',
+                                        text: 'Data tidak ditemukan',
+                                        type: 'error',
+                                        confirmButtonText: 'Close'
+                                    }).then(function () {
+                                        location.reload(); 
+                                    });
+                                }
+                            }); 
+                        }
+                    });
+                }
                 function view(id) {
                     $('#addModal').modal('show');
                     $('input[name="id"]').val(id);
@@ -253,7 +291,7 @@
                         success: function (data) {
                             Swal.fire({
                                 title: 'Sukses!',
-                                text: 'Data berhasil ditambahkan',
+                                text: 'Data berhasil diubah',
                                 type: 'success',
                                 confirmButtonText: 'Close'
                             }).then(function () {

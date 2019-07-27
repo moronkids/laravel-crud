@@ -18,3 +18,4 @@ Route::get('/crud', 'EmployeController@index');
 Route::post('/crud/create', 'EmployeController@create');
 Route::get('/crud/show/{id}', 'EmployeController@show');
 Route::post('/crud/update/{id}', 'EmployeController@edit');
+Route::get('/crud/delete/{id}', 'EmployeController@destroy');
